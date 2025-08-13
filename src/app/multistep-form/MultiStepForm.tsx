@@ -7,6 +7,7 @@ import Step2ProfessionalDetails from './steps/Step2ProfessionalDetails'
 import Step3FamilyDetails from './steps/Step3FamilyDetails'
 import Step4Hobbies from './steps/Step4Hobbies'
 import PreviewStep from './steps/PreviewStep'
+import { useRouter } from 'next/navigation'
 
 export interface FormData {
   // Step 1: Personal Details
@@ -18,21 +19,21 @@ export interface FormData {
   religion: string
   photo: File | null
   photoPreview: string
-  
+
   // Step 2: Professional Details
   education: string
   jobTitle: string
   company: string
   workLocation: string
   workFromHome: boolean
-  
+
   // Step 3: Family Details
   motherName: string
   motherOccupation: string
   fatherName: string
   fatherOccupation: string
   siblings: string // Optional
-  
+
   // Step 4: Hobbies
   hobbies: string
 }
@@ -65,6 +66,7 @@ const TOTAL_STEPS = 4
 function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
   const [currentStep, setCurrentStep] = useState(1)
   const [showPreview, setShowPreview] = useState(false)
+  const router = useRouter()
   const [formData, setFormData] = useState<FormData>({
     // Step 1
     name: '',
@@ -75,29 +77,29 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
     religion: '',
     photo: null,
     photoPreview: '',
-    
+
     // Step 2
     education: '',
     jobTitle: '',
     company: '',
     workLocation: '',
     workFromHome: false,
-    
+
     // Step 3
     motherName: '',
     motherOccupation: '',
     fatherName: '',
     fatherOccupation: '',
     siblings: '',
-    
+
     // Step 4
-    hobbies: ''
+    hobbies: '',
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
 
   const updateFormData = (stepData: Partial<FormData>) => {
-    setFormData(prev => ({ ...prev, ...stepData }))
+    setFormData((prev) => ({ ...prev, ...stepData }))
   }
 
   const updateErrors = (stepErrors: FormErrors) => {
@@ -133,13 +135,18 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
 
   const getStepTitle = () => {
     if (showPreview) return 'Preview Your Details'
-    
+
     switch (currentStep) {
-      case 1: return 'Personal Details'
-      case 2: return 'Professional Details'
-      case 3: return 'Family Details'
-      case 4: return 'Hobbies & Interests'
-      default: return 'Form'
+      case 1:
+        return 'Personal Details'
+      case 2:
+        return 'Professional Details'
+      case 3:
+        return 'Family Details'
+      case 4:
+        return 'Hobbies & Interests'
+      default:
+        return 'Form'
     }
   }
 
@@ -214,7 +221,7 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
         {!showPreview && (
           <div className={styles.progressContainer}>
             <div className={styles.progressBar}>
-              <div 
+              <div
                 className={styles.progressFill}
                 style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
               />
@@ -248,9 +255,7 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
         </div>
 
         {/* Form Content */}
-        <div className={styles.content}>
-          {renderCurrentStep()}
-        </div>
+        <div className={styles.content}>{renderCurrentStep()}</div>
 
         {/* Navigation for Preview */}
         {showPreview && (
@@ -262,13 +267,13 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
             >
               ← Back to Edit
             </button>
+
             <button
               type="button"
-              onClick={handleSubmit}
+              onClick={() => router.push('/success')}
               className={styles.submitButton}
-              disabled={isLoading}
             >
-              {isLoading ? 'Generating PDF...' : 'Download PDF'}
+              Exit
             </button>
           </div>
         )}

@@ -4,6 +4,7 @@ import { FormData } from '../MultiStepForm'
 import PDFTemplate from '../components/PDFTemplate'
 import { generatePDF } from '../utils/pdfGenerator'
 import styles from '../MultiStepForm.module.css'
+import { useRouter } from 'next/navigation'
 
 interface PreviewStepProps {
   formData: FormData
@@ -13,6 +14,7 @@ interface PreviewStepProps {
 function PreviewStep({ formData, onEdit }: PreviewStepProps) {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
   const [showPDFPreview, setShowPDFPreview] = useState(false)
+  const router = useRouter()
 
   const handleDownloadPDF = async () => {
     try {

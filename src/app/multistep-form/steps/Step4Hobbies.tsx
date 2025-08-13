@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormData, FormErrors } from '../MultiStepForm'
 import styles from '../MultiStepForm.module.css'
+import { generatePDF } from '../utils/pdfGenerator'
+import { useRouter } from 'next/navigation'
 
 interface Step4Props {
   formData: FormData
@@ -23,6 +25,8 @@ function Step4Hobbies({
   onSubmit, 
   isLoading 
 }: Step4Props) {
+  const router = useRouter();
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target
     onUpdate({ [name]: value })
@@ -50,9 +54,11 @@ function Step4Hobbies({
     }
   }
 
-  const handleDirectSubmit = () => {
+  const handleDirectSubmit = async () => {
     if (validateStep()) {
-      onSubmit()
+      await generatePDF(formData); // Download the PDF
+      onSubmit(); // Submit the data
+      router.push('/success'); // Redirect to success screen
     }
   }
 
@@ -132,16 +138,16 @@ function Step4Hobbies({
             className={styles.previewButton}
             disabled={isLoading}
           >
-            Preview Form
+            Preview & Download Form
           </button>
-          <button
+          {/* <button
             type="button"
             onClick={handleDirectSubmit}
             className={styles.submitButton}
             disabled={isLoading}
           >
             {isLoading ? 'Generating PDF...' : 'Download PDF'}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

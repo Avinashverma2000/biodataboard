@@ -412,6 +412,23 @@
   transform: translateY(-1px);
 }
 
+.exitButton {
+  background: #764ba2;
+  color: white;
+  border: 2px solid #e5e7eb;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.exitButton:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+
 .nextButton {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -715,6 +732,7 @@
   }
   
   .previousButton,
+  .exitButton,
   .nextButton,
   .previewButton,
   .submitButton {
