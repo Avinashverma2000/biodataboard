@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { FormData } from '../MultiStepForm'
+import PDFTemplate from '../components/PDFTemplate'
+import { generatePDF } from '../utils/pdfGenerator'
 import styles from '../MultiStepForm.module.css'
 
 interface PreviewStepProps {
@@ -9,6 +11,25 @@ interface PreviewStepProps {
 }
 
 function PreviewStep({ formData, onEdit }: PreviewStepProps) {
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+  const [showPDFPreview, setShowPDFPreview] = useState(false)
+
+  const handleDownloadPDF = async () => {
+    try {
+      setIsGeneratingPDF(true)
+      await generatePDF(formData)
+    } catch (error) {
+      console.error('Error generating PDF:', error)
+      alert('Failed to generate PDF. Please try again.')
+    } finally {
+      setIsGeneratingPDF(false)
+    }
+  }
+
+  const togglePDFPreview = () => {
+    setShowPDFPreview(!showPDFPreview)
+  }
+
   const formatDate = (dateString: string) => {
     if (!dateString) return 'Not provided'
     const date = new Date(dateString)
@@ -71,7 +92,36 @@ function PreviewStep({ formData, onEdit }: PreviewStepProps) {
         <p className={styles.previewSubtitle}>
           Please review all your information before submitting
         </p>
+        
+        {/* PDF Actions */}
+        <div className={styles.pdfActions}>
+          <button
+            type="button"
+            onClick={togglePDFPreview}
+            className={styles.pdfPreviewButton}
+          >
+            {showPDFPreview ? '👁️ Hide PDF Preview' : '👁️ Show PDF Preview'}
+          </button>
+          <button
+            type="button"
+            onClick={handleDownloadPDF}
+            disabled={isGeneratingPDF}
+            className={styles.downloadPdfButton}
+          >
+            {isGeneratingPDF ? '⏳ Generating...' : '📄 Download PDF'}
+          </button>
+        </div>
       </div>
+
+      {/* PDF Preview */}
+      {showPDFPreview && (
+        <div className={styles.pdfPreviewContainer}>
+          <h3 className={styles.previewSectionTitle}>PDF Preview</h3>
+          <div className={styles.pdfPreviewWrapper}>
+            <PDFTemplate formData={formData} isPreview={true} />
+          </div>
+        </div>
+      )}
 
       {/* Photo Preview */}
       {formData.photoPreview && (
@@ -136,6 +186,11 @@ function PreviewStep({ formData, onEdit }: PreviewStepProps) {
             </p>
           )}
         </div>
+      </div>
+      
+      {/* Hidden PDF Template for Generation */}
+      <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
+        <PDFTemplate formData={formData} isPreview={false} />
       </div>
     </div>
   )

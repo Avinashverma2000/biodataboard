@@ -268,7 +268,7 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
               className={styles.submitButton}
               disabled={isLoading}
             >
-              {isLoading ? 'Submitting...' : 'Submit Form'}
+              {isLoading ? 'Generating PDF...' : 'Download PDF'}
             </button>
           </div>
         )}

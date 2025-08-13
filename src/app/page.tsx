@@ -6,7 +6,9 @@ export default function Home() {
   const router = useRouter()
 
   const handleGetStarted = () => {
-    router.push('/auth')
+    // Comment out login step for now - go directly to form
+    router.push('/multistep-form')
+    // router.push('/auth') // Uncomment this line to enable login step
   }
 
   return (
