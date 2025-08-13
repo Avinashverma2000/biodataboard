@@ -62,6 +62,13 @@ function Step4Hobbies({
     }
   }
 
+  const handleExit = async () => {
+    if (validateStep()) {
+      onSubmit(); // Submit the data
+      router.push('/success'); // Redirect to success screen
+    }
+  }
+
   const popularHobbies = [
     'Reading', 'Traveling', 'Music', 'Dancing', 'Cooking', 'Photography',
     'Sports', 'Yoga', 'Meditation', 'Painting', 'Gaming', 'Gardening',
@@ -147,6 +154,14 @@ function Step4Hobbies({
             disabled={isLoading}
           >
             {isLoading ? 'Generating PDF...' : 'Download PDF'}
+          </button> */}
+          {/* <button
+            type="button"
+            onClick={handleExit}
+            className={styles.exitButton}
+            disabled={isLoading}
+          >
+            Exit
           </button> */}
         </div>
       </div>

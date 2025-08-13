@@ -270,7 +270,7 @@ function MultiStepForm({ onSubmit, isLoading = false }: MultiStepFormProps) {
 
             <button
               type="button"
-              onClick={() => router.push('/success')}
+              onClick={handleSubmit}
               className={styles.submitButton}
             >
               Exit

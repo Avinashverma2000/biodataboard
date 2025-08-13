@@ -32,7 +32,7 @@ export default function MultiStepFormPage() {
       
       // For demo purposes
       setSubmissionResult('success')
-      alert('Biodata form submitted successfully!')
+      // alert('Biodata form submitted successfully!')
       
     } catch (error) {
       console.error('Form submission error:', error)
