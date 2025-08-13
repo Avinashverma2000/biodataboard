@@ -140,7 +140,7 @@ function Step4Hobbies({
             className={styles.submitButton}
             disabled={isLoading}
           >
-            {isLoading ? 'Submitting...' : 'Submit Form'}
+            {isLoading ? 'Generating PDF...' : 'Download PDF'}
           </button>
         </div>
       </div>
